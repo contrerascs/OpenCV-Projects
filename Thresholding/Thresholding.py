@@ -5,6 +5,7 @@ import imutils
 image = cv2.imread(r'Thresholding/img3.jpg',0)
 image = imutils.resize(image, width=400)
 
+#Tipos de umbralización
 _,binarizada = cv2.threshold(image,210,255,cv2.THRESH_BINARY)
 _,binarizadaInv = cv2.threshold(image, 210, 255, cv2.THRESH_BINARY_INV)
 _,trunc = cv2.threshold(image,210,255,cv2.THRESH_TRUNC)
