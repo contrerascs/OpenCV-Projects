@@ -7,15 +7,22 @@ def dibujar(mask, color):
     for c in contornos:
         area = cv2.contourArea(c)
         if area > 300:
-            M = cv2.moments(c)
-            if (M['m00']==0): M['m00']=1
-            x = int(M['m10']/M['m00'])
-            y = int(M['m01']/M['m00'])
-            cv2.circle(frame,(x,y),7,(0,255,0),-1)
-            fort = cv2.FONT_HERSHEY_SIMPLEX
-            cv2.putText(frame,'{},{}'.format(x,y),(x+10,y),fort,0.75,(0,255,0),1,cv2.LINE_AA)
-            nuevoContorno = cv2.convexHull(c)
-            cv2.drawContours(frame,[nuevoContorno],0,(255,0,0),3)
+            x,y,w,h = cv2.boundingRect(c)
+            if color == (255,0,0):
+                cv2.rectangle(frame,(x,y),(x+w,y+h),color,3)
+                cv2.line(frame,(x,y),(x+w,y+h),color,3)
+                cv2.line(frame,(x+w,y),(x,y+h),color,3)
+                cv2.putText(frame,'Azul',(x+10,y+10),1,0.75,color,2,cv2.LINE_AA)
+            if color == (0,255,255):
+                M = cv2.moments(c)
+                if (M['m00']==0): M['m00']=1
+                x = int(M['m10']/M['m00'])
+                y = int(M['m01']/M['m00'])
+                xcentro = int(M['m10']/M['m00'])
+                ycentro = int(M['m01']/M['m00'])
+                radio = xcentro + x
+                cv2.circle(frame,(xcentro,ycentro),radio,color,3)
+                cv2.putText(frame,'Amarillo',(x+10,y-10),1,0.75,color,2,cv2.LINE_AA)
 
 cap = cv2.VideoCapture(0)
 
