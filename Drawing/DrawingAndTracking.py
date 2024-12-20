@@ -6,7 +6,7 @@ def dibujar(mask, color):
                                          cv2.CHAIN_APPROX_SIMPLE)
     for c in contornos:
         area = cv2.contourArea(c)
-        if area > 300:
+        if area > 3000:
             x,y,w,h = cv2.boundingRect(c)
             if color == (255,0,0):
                 cv2.rectangle(frame,(x,y),(x+w,y+h),color,3)
@@ -16,13 +16,11 @@ def dibujar(mask, color):
             if color == (0,255,255):
                 M = cv2.moments(c)
                 if (M['m00']==0): M['m00']=1
-                x = int(M['m10']/M['m00'])
-                y = int(M['m01']/M['m00'])
                 xcentro = int(M['m10']/M['m00'])
                 ycentro = int(M['m01']/M['m00'])
-                radio = xcentro + x
+                radio = xcentro - x
                 cv2.circle(frame,(xcentro,ycentro),radio,color,3)
-                cv2.putText(frame,'Amarillo',(x+10,y-10),1,0.75,color,2,cv2.LINE_AA)
+                cv2.putText(frame,'Amarillo',(x-10,y-10),1,0.75,color,2,cv2.LINE_AA)
 
 cap = cv2.VideoCapture(0)
 
